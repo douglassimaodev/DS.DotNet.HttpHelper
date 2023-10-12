@@ -56,19 +56,19 @@ namespace DS.DotNet.HttpHelper
 
         public async Task<T> PostAsync<T>(
             string url,
-            object content,
+            object data,
             string authorizationKeyValue = "",
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
             string contentType = "application/json",
             CancellationToken cancellationToken = default)
         {
-            return await PostAsync<T>(url, Serialize(content), authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken);
+            return await PostAsync<T>(url, Serialize(data), authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken);
         }
 
         public async Task<T> PostAsync<T>(
             string url,
-            string contentJson,
+            string dataJson,
             string authorizationKeyValue = "",
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
@@ -77,7 +77,7 @@ namespace DS.DotNet.HttpHelper
         {
             try
             {
-                var response = await PostAsync(url, contentJson, authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken).ConfigureAwait(false);
+                var response = await PostAsync(url, dataJson, authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken).ConfigureAwait(false);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -99,7 +99,7 @@ namespace DS.DotNet.HttpHelper
 
         public async Task<HttpResponseMessage> PostAsync(
             string url,
-            string contentJson,
+            string dataJson,
             string authorizationKeyValue = "",
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
@@ -111,7 +111,7 @@ namespace DS.DotNet.HttpHelper
                 AddAuthorization(authorizationKeyName, authorizationKeyValue, authorizationKeyValuePrefix);
                 EnsureContentType(contentType);
 
-                var response = await _httpClient.PostAsync(url, CreateContent(contentType, contentJson), cancellationToken).ConfigureAwait(false);
+                var response = await _httpClient.PostAsync(url, CreateContent(contentType, dataJson), cancellationToken).ConfigureAwait(false);
 
                 if (response.StatusCode == HttpStatusCode.NoContent)
                 {
@@ -128,6 +128,18 @@ namespace DS.DotNet.HttpHelper
                 _logger.LogError(ex, errorMessage);
                 throw new HttpRequestException(errorMessage, ex);
             }
+        }
+
+        public async Task<HttpResponseMessage> PostAsync(
+            string url,
+            object data,
+            string authorizationKeyValue = "",
+            string authorizationKeyName = "Authorization",
+            string authorizationKeyValuePrefix = "Bearer ",
+            string contentType = "application/json",
+            CancellationToken cancellationToken = default)
+        {
+            return await PostAsync(url, Serialize(data), authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken).ConfigureAwait(false);
         }
 
         #endregion

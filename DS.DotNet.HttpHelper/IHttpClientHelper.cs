@@ -13,7 +13,7 @@ namespace DS.DotNet.HttpHelper
 
         Task<T> PostAsync<T>(
             string url,
-            object content,
+            object data,
             string authorizationKeyValue = "",
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
@@ -22,7 +22,7 @@ namespace DS.DotNet.HttpHelper
 
         Task<T> PostAsync<T>(
             string url,
-            string contentJson,
+            string dataJson,
             string authorizationKeyValue = "",
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
@@ -31,7 +31,16 @@ namespace DS.DotNet.HttpHelper
 
         Task<HttpResponseMessage> PostAsync(
             string url,
-            string contentJson,
+            string dataJson,
+            string authorizationKeyValue = "",
+            string authorizationKeyName = "Authorization",
+            string authorizationKeyValuePrefix = "Bearer ",
+            string contentType = "application/json",
+            CancellationToken cancellationToken = default);
+
+        Task<HttpResponseMessage> PostAsync(
+            string url,
+            object data,
             string authorizationKeyValue = "",
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
@@ -40,7 +49,7 @@ namespace DS.DotNet.HttpHelper
 
         Task<T> PutAsync<T>(
             string url,
-            object content,
+            object data,
             string authorizationKeyValue = "",
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
@@ -49,7 +58,7 @@ namespace DS.DotNet.HttpHelper
 
         Task<T> PutAsync<T>(
             string url,
-            string contentJson,
+            string dataJson,
             string authorizationKeyValue = "",
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
@@ -58,7 +67,7 @@ namespace DS.DotNet.HttpHelper
 
         Task<HttpResponseMessage> PutAsync(
             string url,
-            string contentJson,
+            string dataJson,
             string authorizationKeyValue = "",
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
@@ -67,7 +76,7 @@ namespace DS.DotNet.HttpHelper
 
         Task<HttpResponseMessage> PutAsync(
             string url,
-            object content,
+            object data,
             string authorizationKeyValue = "",
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
