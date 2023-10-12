@@ -3,6 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>A helper to httpClient call</Title>
+    <Description>DS.DotNet.HttpHelper is a user-friendly, robust, and highly configurable HTTP client helper library, designed to simplify and enhance the process of making HTTP requests in your .NET applications.</Description>
+    <PackageProjectUrl>https://github.com/douglassimaodev/DS.DotNet.HttpHelper</PackageProjectUrl>
+    <Authors>Douglas Simão</Authors>
   </PropertyGroup>
 
   <ItemGroup>
