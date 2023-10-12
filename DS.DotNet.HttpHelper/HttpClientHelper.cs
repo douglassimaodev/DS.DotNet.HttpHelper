@@ -210,6 +210,18 @@ namespace DS.DotNet.HttpHelper
             }
         }
 
+        public async Task<HttpResponseMessage> PutAsync(
+            string url,
+            object content,
+            string authorizationKeyValue = "",
+            string authorizationKeyName = "Authorization",
+            string authorizationKeyValuePrefix = "Bearer ",
+            string contentType = "application/json",
+            CancellationToken cancellationToken = default)
+        {
+            return await PutAsync(url, Serialize(content), authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken);
+        }
+
         #endregion
 
         #region Delete

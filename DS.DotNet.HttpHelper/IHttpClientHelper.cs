@@ -63,7 +63,16 @@ namespace DS.DotNet.HttpHelper
             string authorizationKeyName = "Authorization",
             string authorizationKeyValuePrefix = "Bearer ",
             string contentType = "application/json",
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default);
+
+        Task<HttpResponseMessage> PutAsync(
+            string url,
+            object content,
+            string authorizationKeyValue = "",
+            string authorizationKeyName = "Authorization",
+            string authorizationKeyValuePrefix = "Bearer ",
+            string contentType = "application/json",
+            CancellationToken cancellationToken = default);
 
         Task<HttpStatusCode> DeleteAsync(
             string url,
