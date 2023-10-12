@@ -31,7 +31,7 @@ namespace DS.DotNet.HttpHelper
 
                 var response = await _httpClient.GetAsync(url, cancellationToken).ConfigureAwait(false);
 
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
                     return Deserialize<T>(content);
@@ -63,7 +63,14 @@ namespace DS.DotNet.HttpHelper
             string contentType = "application/json",
             CancellationToken cancellationToken = default)
         {
-            return await PostAsync<T>(url, Serialize(data), authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken);
+            return await PostAsync<T>(
+                url, 
+                Serialize(data), 
+                authorizationKeyValue, 
+                authorizationKeyName, 
+                authorizationKeyValuePrefix, 
+                contentType, 
+                cancellationToken);
         }
 
         public async Task<T> PostAsync<T>(
@@ -75,26 +82,17 @@ namespace DS.DotNet.HttpHelper
             string contentType = "application/json",
             CancellationToken cancellationToken = default)
         {
-            try
-            {
-                var response = await PostAsync(url, dataJson, authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken).ConfigureAwait(false);
+            var response = await PostAsync(
+                url, 
+                dataJson, 
+                authorizationKeyValue, 
+                authorizationKeyName, 
+                authorizationKeyValuePrefix, 
+                contentType, 
+                cancellationToken).ConfigureAwait(false);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-                    return Deserialize<T>(content);
-                }
-                else
-                {
-                    throw await CreateError("POST", url, response);
-                }
-            }
-            catch (Exception ex)
-            {
-                var errorMessage = $"An error occurred when sending Post request to {url}";
-                _logger.LogError(ex, errorMessage);
-                throw new HttpRequestException(errorMessage, ex);
-            }
+            var result = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+            return Deserialize<T>(result);
         }
 
         public async Task<HttpResponseMessage> PostAsync(
@@ -113,7 +111,7 @@ namespace DS.DotNet.HttpHelper
 
                 var response = await _httpClient.PostAsync(url, CreateContent(contentType, dataJson), cancellationToken).ConfigureAwait(false);
 
-                if (response.StatusCode == HttpStatusCode.NoContent)
+                if(response.IsSuccessStatusCode)
                 {
                     return response;
                 }
@@ -171,7 +169,7 @@ namespace DS.DotNet.HttpHelper
             {
                 var response = await PutAsync(url, contentJson, authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken).ConfigureAwait(false);
 
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
                     return Deserialize<T>(content);
@@ -205,7 +203,7 @@ namespace DS.DotNet.HttpHelper
 
                 var response = await _httpClient.PutAsync(url, CreateContent(contentType, contentJson), cancellationToken).ConfigureAwait(false);
 
-                if (response.StatusCode == HttpStatusCode.NoContent)
+                if (response.IsSuccessStatusCode)
                 {
                     return response;
                 }
@@ -250,7 +248,7 @@ namespace DS.DotNet.HttpHelper
                 AddAuthorization(authorizationKeyName, authorizationKeyValue, authorizationKeyValuePrefix);
 
                 var response = await _httpClient.DeleteAsync(url, cancellationToken).ConfigureAwait(false);
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (response.IsSuccessStatusCode)
                 {
                     return response.StatusCode;
                 }
