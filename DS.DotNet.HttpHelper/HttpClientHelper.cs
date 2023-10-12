@@ -77,10 +77,7 @@ namespace DS.DotNet.HttpHelper
         {
             try
             {
-                AddAuthorization(authorizationKeyName, authorizationKeyValue, authorizationKeyValuePrefix);
-                EnsureContentType(contentType);
-
-                var response = await _httpClient.PostAsync(url, CreateContent(contentType, contentJson), cancellationToken).ConfigureAwait(false);
+                var response = await PostAsync(url, contentJson, authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken).ConfigureAwait(false);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -95,6 +92,39 @@ namespace DS.DotNet.HttpHelper
             catch (Exception ex)
             {
                 var errorMessage = $"An error occurred when sending Post request to {url}";
+                _logger.LogError(ex, errorMessage);
+                throw new HttpRequestException(errorMessage, ex);
+            }
+        }
+
+        public async Task<HttpResponseMessage> PostAsync(
+            string url,
+            string contentJson,
+            string authorizationKeyValue = "",
+            string authorizationKeyName = "Authorization",
+            string authorizationKeyValuePrefix = "Bearer ",
+            string contentType = "application/json",
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                AddAuthorization(authorizationKeyName, authorizationKeyValue, authorizationKeyValuePrefix);
+                EnsureContentType(contentType);
+
+                var response = await _httpClient.PostAsync(url, CreateContent(contentType, contentJson), cancellationToken).ConfigureAwait(false);
+
+                if (response.StatusCode == HttpStatusCode.NoContent)
+                {
+                    return response;
+                }
+                else
+                {
+                    throw await CreateError("POST", url, response);
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = $"An error occurred when sending PUT request to {url}";
                 _logger.LogError(ex, errorMessage);
                 throw new HttpRequestException(errorMessage, ex);
             }
@@ -127,15 +157,45 @@ namespace DS.DotNet.HttpHelper
         {
             try
             {
-                AddAuthorization(authorizationKeyName, authorizationKeyValue, authorizationKeyValuePrefix);
-                EnsureContentType(contentType);
-
-                var response = await _httpClient.PutAsync(url, CreateContent(contentType, contentJson), cancellationToken).ConfigureAwait(false);
+                var response = await PutAsync(url, contentJson, authorizationKeyValue, authorizationKeyName, authorizationKeyValuePrefix, contentType, cancellationToken).ConfigureAwait(false);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
                     return Deserialize<T>(content);
+                }
+                else
+                {
+                    throw await CreateError("PUT", url, response);
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorMessage = $"An error occurred when sending PUT request to {url}";
+                _logger.LogError(ex, errorMessage);
+                throw new HttpRequestException(errorMessage, ex);
+            }
+        }
+
+        public async Task<HttpResponseMessage> PutAsync(
+            string url,
+            string contentJson,
+            string authorizationKeyValue = "",
+            string authorizationKeyName = "Authorization",
+            string authorizationKeyValuePrefix = "Bearer ",
+            string contentType = "application/json",
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                AddAuthorization(authorizationKeyName, authorizationKeyValue, authorizationKeyValuePrefix);
+                EnsureContentType(contentType);
+
+                var response = await _httpClient.PutAsync(url, CreateContent(contentType, contentJson), cancellationToken).ConfigureAwait(false);
+
+                if (response.StatusCode == HttpStatusCode.NoContent)
+                {
+                    return response;
                 }
                 else
                 {

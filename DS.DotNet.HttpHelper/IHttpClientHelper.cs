@@ -29,6 +29,15 @@ namespace DS.DotNet.HttpHelper
             string contentType = "application/json",
             CancellationToken cancellationToken = default);
 
+        Task<HttpResponseMessage> PostAsync(
+            string url,
+            string contentJson,
+            string authorizationKeyValue = "",
+            string authorizationKeyName = "Authorization",
+            string authorizationKeyValuePrefix = "Bearer ",
+            string contentType = "application/json",
+            CancellationToken cancellationToken = default);
+
         Task<T> PutAsync<T>(
             string url,
             object content,
@@ -46,6 +55,15 @@ namespace DS.DotNet.HttpHelper
             string authorizationKeyValuePrefix = "Bearer ",
             string contentType = "application/json",
             CancellationToken cancellationToken = default);
+
+        Task<HttpResponseMessage> PutAsync(
+            string url,
+            string contentJson,
+            string authorizationKeyValue = "",
+            string authorizationKeyName = "Authorization",
+            string authorizationKeyValuePrefix = "Bearer ",
+            string contentType = "application/json",
+            CancellationToken cancellationToken = default)
 
         Task<HttpStatusCode> DeleteAsync(
             string url,
