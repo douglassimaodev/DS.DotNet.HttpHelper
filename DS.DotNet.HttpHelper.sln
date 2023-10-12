@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DS.DotNet.HttpHelper", "DS.DotNet.HttpHelper\DS.DotNet.HttpHelper.csproj", "{A91ED073-DB47-4515-8EB1-128702820ACB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A91ED073-DB47-4515-8EB1-128702820ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A91ED073-DB47-4515-8EB1-128702820ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A91ED073-DB47-4515-8EB1-128702820ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A91ED073-DB47-4515-8EB1-128702820ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {08F002F7-DAB0-4536-B811-2DA55B4BBFE2}
+	EndGlobalSection
+EndGlobal
